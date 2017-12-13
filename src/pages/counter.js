@@ -1,37 +1,25 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default class Counter extends React.PureComponent {
-  state = {
-    count: 0
-  }
-
-  constructor() {
-    super()
-
-    this.increment = this.increment.bind(this)
-    this.decrement = this.decrement.bind(this)
-  }
-
-  increment() {
-    this.setState({
-      count: this.state.count + 1
-    })
-  }
-
-  decrement() {
-    this.setState({
-      count: this.state.count - 1
-    })
-  }
-
+class Counter extends React.PureComponent {
   render() {
     return (
       <div>
         <h1>Counter</h1>
-        <p>{ this.state.count }</p>
-        <button onClick={this.increment}>+</button>
-        <button onClick={this.decrement}>-</button>
+        <p>{this.props.count}</p>
+        <button onClick={this.props.increment}>+</button>
+        <button onClick={this.props.decrement}>-</button>
       </div>
     )
   }
 }
+
+export default connect(
+  state => ({
+    count: state.count,
+  }),
+  dispatch => ({
+    increment: () => dispatch({ type: 'INCREMENT' }),
+    decrement: () => dispatch({ type: 'DECREMENT' }),
+  })
+)(Counter)
